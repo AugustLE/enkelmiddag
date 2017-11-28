@@ -15,7 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+import datetime
+TOKEN_EXPIRE_TIME=datetime.timedelta(days=20)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -39,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'rest',
     'user',
-    'frontpage'
+    'frontpage',
 ]
 
 MIDDLEWARE = [
@@ -109,6 +111,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        #'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
+        #"'rest_framework.authentication.TokenAuthentication',
+        'rest.authentication.ExpiringTokenAuthentication',
+    ),
+    #'DEFAULT_RENDERER_CLASSES': (
+     #   'rest_framework.renderers.JSONRenderer',
+    #),
+    #'DEFAULT_PERMISSION_CLASSES': (
+     #  'rest_framework.permissions.AllowAny',
+    #)
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -129,3 +145,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
