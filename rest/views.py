@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,6 +14,7 @@ from .serializers import UserSerializer
 from rest_framework import status
 
 from .models import Dinner, IngredientType
+from .serializers import DinnerSerializer, IngredientSerializer
 
 class UserList(generics.ListAPIView):
     permission_classes = (permissions.IsAdminUser,)
@@ -61,7 +63,8 @@ class UserAuthToken(ObtainAuthToken):
             return Response({'token': token.key})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@api_view(['GET'])
+@permission_classes((permissions.IsAdminUser, ))
 def image_view(request, dinner_id):
 
     dinner = get_object_or_404(Dinner, pk=dinner_id)
@@ -69,9 +72,57 @@ def image_view(request, dinner_id):
     pdf = open(url, "rb").read()
     return HttpResponse(pdf, content_type='application/png')
 
+@api_view(['GET'])
+@permission_classes((permissions.IsAdminUser, ))
 def image_view_ing_type(request, ing_type_id):
 
     ing_type = get_object_or_404(IngredientType, pk=ing_type_id)
     url = "media/" + ing_type.image.name
     pdf = open(url, "rb").read()
     return HttpResponse(pdf, content_type='application/png')
+
+
+class DinnerList(APIView):
+    permission_classes = (permissions.IsAdminUser,)
+    @csrf_exempt
+    def get(self, request, format=None):
+        dinners = Dinner.objects.all()
+        serializer = DinnerSerializer(dinners, many=True)
+        return Response(serializer.data)
+
+    @csrf_exempt
+    def post(self, request, format=None):
+
+        serializer = DinnerSerializer(data=request.data)
+        if serializer.is_valid():
+
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class DinnerDetail(APIView):
+    permission_classes = (permissions.IsAdminUser,)
+    def get_dinner(self, pk):
+
+        try:
+            return Dinner.objects.get(pk=pk)
+        except Dinner.DoesNotExist:
+            return None
+
+    @csrf_exempt
+    def get(self, request, pk, format=None):
+
+        dinner = self.get_dinner(pk)
+        serializer = DinnerSerializer(dinner, many=False, context={'request': request})
+        if not dinner:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(serializer.data)
+
+    def post(self):
+        pass
+

@@ -19,7 +19,8 @@ urlpatterns = [
     url(r'^user/login/$', views.UserAuthToken.as_view(), name='login'),
     url(r'^media/imagedir/dinners/(?P<dinner_id>[0-9]+)/.*$', views.image_view, name='image_view'),
     url(r'^media/imagedir/ingredientTypes/(?P<ing_type_id>[0-9]+)/.*$', views.image_view_ing_type, name='image_view_ing_type'),
-
+    url(r'^dinner/(?P<pk>[0-9]+)/$', views.DinnerDetail.as_view(), name='dinner'),
+    url(r'^dinners/$', views.DinnerList.as_view(), name='dinners'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

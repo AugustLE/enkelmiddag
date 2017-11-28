@@ -10,6 +10,9 @@ class IngredientInLine(admin.StackedInline):
 class DinnerAdmin(admin.ModelAdmin):
 
     inlines = [IngredientInLine]
+    def media(self):
+        print("Yes okeu")
+        return super(DinnerAdmin, self).media
 
 
 admin.site.register(Dinner, DinnerAdmin)

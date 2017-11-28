@@ -4,6 +4,7 @@ import os
 from django.db import models
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from user.models import CustomUser
 
 
 # Create your models here.
@@ -22,6 +23,8 @@ class Dinner(models.Model):
 
     name = models.CharField(max_length=150)
     type = models.CharField(max_length=100, choices=FOOD_TYPES)
+    recipe = models.TextField(max_length=1000)
+    owner = models.ForeignKey(CustomUser, related_name='dinners', on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to=dinner_dirctory_path, null=True, blank=True)
 
     def __str__(self):
@@ -37,11 +40,11 @@ class Dinner(models.Model):
         super(Dinner, self).save(*args, **kwargs)
 
     #Trengs ikke
-    def delete(self):
+    """def delete(self):
 
         self.image.delete()
         os.remove(self.image.name)
-        super(Dinner, self).delete()
+        super(Dinner, self).delete()"""
 
 def ingredient_type_dirctory_path(instance, filename):
     return 'imagedir/ingredientTypes/{0}/{1}'.format(instance.id, filename)
@@ -66,7 +69,7 @@ class IngredientType(models.Model):
 class Ingredient(models.Model):
 
     #name = models.CharField(max_length=100)
-    type = models.ForeignKey(IngredientType)
+    type = models.ForeignKey(IngredientType, related_name='ingredients')
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     annotation = models.CharField(max_length=20)
     dinner = models.ForeignKey(Dinner, null=True, related_name='ingredients')
