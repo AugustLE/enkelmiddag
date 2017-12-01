@@ -8,8 +8,9 @@ from rest_framework.authtoken import views as rest_framework_views
 
 app_name = 'rest'
 
-urlpatterns = [
+#static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+urlpatterns = [
 
     url(r'^users/$', views.UserList.as_view()),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
@@ -17,11 +18,12 @@ urlpatterns = [
     #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
     url(r'^user/login/$', views.UserAuthToken.as_view(), name='login'),
-    url(r'^media/imagedir/dinners/(?P<dinner_id>[0-9]+)/.*$', views.image_view, name='image_view'),
+    url(r'^media/imagedir/dinners/(?P<dinner_id>[0-9]+)/.*$', views.ImageDinnerView.as_view(), name='image_view'),
     url(r'^media/imagedir/ingredientTypes/(?P<ing_type_id>[0-9]+)/.*$', views.image_view_ing_type, name='image_view_ing_type'),
     url(r'^dinner/(?P<pk>[0-9]+)/$', views.DinnerDetail.as_view(), name='dinner'),
     url(r'^dinners/$', views.DinnerList.as_view(), name='dinners'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 urlpatterns = format_suffix_patterns(urlpatterns)

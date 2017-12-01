@@ -3,15 +3,19 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import BasePermission
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
+from rest_framework.viewsets import ModelViewSet
+
 from user.models import CustomUser
 from .serializers import UserSerializer
 from rest_framework import status
+from PIL import Image
 
 from .models import Dinner, IngredientType
 from .serializers import DinnerSerializer, IngredientSerializer
@@ -64,28 +68,47 @@ class UserAuthToken(ObtainAuthToken):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes((permissions.IsAdminUser, ))
 def image_view(request, dinner_id):
 
+    #if request.user.us_authenticated:
+     #   print("True")
+    print(request.data)
     dinner = get_object_or_404(Dinner, pk=dinner_id)
     url = "media/" + dinner.image.name
     pdf = open(url, "rb").read()
-    return HttpResponse(pdf, content_type='application/png')
+    return HttpResponse(pdf, content_type='image/png')
+
 
 @api_view(['GET'])
-@permission_classes((permissions.IsAdminUser, ))
-def image_view_ing_type(request, ing_type_id):
+def current_user(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
 
+
+class ImageDinnerView(APIView):
+
+    def get(self, request, dinner_id, format=None):
+        print(self.get_renderer_context())
+        dinner = get_object_or_404(Dinner, pk=dinner_id)
+        url = "media/" + dinner.image.name
+        image = open(url, "rb").read()
+        return HttpResponse(image, content_type='image/png')
+
+@api_view(['GET'])
+#@permission_classes((permissions.IsAdminUser, ))
+def image_view_ing_type(request, ing_type_id):
+    print("image_view_ing_type")
     ing_type = get_object_or_404(IngredientType, pk=ing_type_id)
     url = "media/" + ing_type.image.name
-    pdf = open(url, "rb").read()
-    return HttpResponse(pdf, content_type='application/png')
+    image = open(url, "rb").read()
+    return HttpResponse(image, content_type='image/png')
 
 
 class DinnerList(APIView):
     permission_classes = (permissions.IsAdminUser,)
     @csrf_exempt
     def get(self, request, format=None):
+
         dinners = Dinner.objects.all()
         serializer = DinnerSerializer(dinners, many=True)
         return Response(serializer.data)
