@@ -53,6 +53,8 @@ def ingredient_type_dirctory_path(instance, filename):
 class IngredientType(models.Model):
 
     name = models.CharField(max_length=100)
+    plural_name = models.CharField(max_length=100, null=True, blank=True)
+    singular_name = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to=ingredient_type_dirctory_path, null=True, blank=True)
 
     def save(self, *args, **kwargs):
