@@ -24,7 +24,7 @@ TOKEN_EXPIRE_TIME=datetime.timedelta(days=20)
 SECRET_KEY = '#vaxs7wbp7-tg(+3qbb8=_+**$f(b!8b1nz=c%+zh8b9@5%l(w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['46.101.61.74', '127.0.0.1', 'enkelmiddagapp.no']
 

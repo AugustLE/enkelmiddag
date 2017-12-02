@@ -26,6 +26,7 @@ class Dinner(models.Model):
     recipe = models.TextField(max_length=1000)
     owner = models.ForeignKey(CustomUser, related_name='dinners', on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to=dinner_dirctory_path, null=True, blank=True)
+    visible = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
