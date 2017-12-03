@@ -103,7 +103,7 @@ def delete_dinner_image_on_change(sender, instance, **kwargs):
     except Dinner.DoesNotExist:
         return False
 
-    if instance.image and instance.image != old_file:
+    if (instance.image and instance.image != old_file) or not instance.image:
 
         old_file.delete(False)
 
