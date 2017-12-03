@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from user.models import CustomUser
-
+from PIL import Image
 
 # Create your models here.
 
@@ -34,6 +34,7 @@ class Dinner(models.Model):
     def save(self, *args, **kwargs):
 
         if self.pk is None:
+
             saved_image = self.image
             self.image = None
             super(Dinner, self).save(*args, **kwargs)
@@ -65,6 +66,7 @@ class IngredientType(models.Model):
             self.image = saved_image
         super(IngredientType, self).save(*args, **kwargs)
 
+
     def __str__(self):
 
         return self.name
@@ -81,7 +83,6 @@ class Ingredient(models.Model):
         return self.type.name
 
 
-
 @receiver(pre_delete, sender=Dinner)
 def dinner_delete(sender, instance, **kwargs):
     # Pass false so FileField doesn't save the model.
@@ -93,7 +94,7 @@ def delete_dinner_image_on_change(sender, instance, **kwargs):
     # Deletes old file from filesystem
     # when corresponding `MediaFile` object is updated
     # with new file.
-
+   #print(sender.request)
     if not instance.pk:
         return False
 
@@ -102,7 +103,10 @@ def delete_dinner_image_on_change(sender, instance, **kwargs):
     except Dinner.DoesNotExist:
         return False
 
-    old_file.delete(False)
+    if instance.image and instance.image != old_file:
+
+        old_file.delete(False)
+
 
 @receiver(pre_delete, sender=IngredientType)
 def ingredient_type_delete(sender, instance, **kwargs):
