@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Dinner, Ingredient, IngredientType, StorePosition, Kommune, Fylke
+from .models import Dinner, Ingredient, IngredientType, StorePosition, Kommune, Fylke, Week
 
 class IngredientInLine(admin.StackedInline):
 
@@ -40,4 +40,6 @@ admin.site.register(IngredientType)
 admin.site.register(StorePosition)
 admin.site.register(Kommune, KommuneAdmin)
 admin.site.register(Fylke, FylkeAdmin)
+admin.site.register(Week)
+
 

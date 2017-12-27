@@ -16,6 +16,15 @@ FOOD_TYPES = (
         ('V', 'Vegetarian'),
     )
 
+INGREDIENT_TYPES = (
+    ('O', 'Other'),
+    ('F', 'Fruit and Vegetables'),
+    ('M', 'Meat and Fish'),
+    ('D', 'Milk Products & Egg'),
+    ('H', 'Canned Food'),
+    ('S', 'Spices'),
+)
+
 def dinner_dirctory_path(instance, filename):
     return 'imagedir/dinners/{0}/{1}'.format(instance.id, filename)
 
@@ -41,19 +50,13 @@ class Dinner(models.Model):
             self.image = saved_image
         super(Dinner, self).save(*args, **kwargs)
 
-    #Trengs ikke
-    """def delete(self):
-
-        self.image.delete()
-        os.remove(self.image.name)
-        super(Dinner, self).delete()"""
-
 def ingredient_type_dirctory_path(instance, filename):
     return 'imagedir/ingredientTypes/{0}/{1}'.format(instance.id, filename)
 
 class IngredientType(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
+    category = models.CharField(max_length=100, choices=INGREDIENT_TYPES, default=INGREDIENT_TYPES[0])
     plural_name = models.CharField(max_length=100, null=True, blank=True)
     singular_name = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to=ingredient_type_dirctory_path, null=True, blank=True)
@@ -81,6 +84,31 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.type.name
+
+
+class Week(models.Model):
+
+    name = models.CharField(max_length=150)
+    date_created = models.DateTimeField(verbose_name='date created', auto_now_add=True)
+    monday = models.ForeignKey(Dinner, null=True, blank=True, related_name='monday')
+    monday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    tuesday = models.ForeignKey(Dinner, null=True, blank=True, related_name='tuesday')
+    tuesday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    wednesday = models.ForeignKey(Dinner, null=True, blank=True, related_name='wednesday')
+    wednesday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    thursday = models.ForeignKey(Dinner, null=True, blank=True, related_name='thursday')
+    thursday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    friday = models.ForeignKey(Dinner, null=True, blank=True, related_name='friday')
+    friday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    saturday = models.ForeignKey(Dinner, null=True, blank=True, related_name='saturday')
+    saturday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    sunday = models.ForeignKey(Dinner, null=True, blank=True, related_name='sunday')
+    sunday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 
 class Fylke(models.Model):
 
