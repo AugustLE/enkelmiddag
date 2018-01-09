@@ -10,11 +10,7 @@ class IngredientInLine(admin.StackedInline):
 class DinnerAdmin(admin.ModelAdmin):
 
     inlines = [IngredientInLine]
-    #@property
-    #def media(self):
-     #   print("test")
-      #  return super(DinnerAdmin, self).media
-
+    
 class StoreInLine(admin.StackedInline):
 
     model = StorePosition

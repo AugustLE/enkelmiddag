@@ -23,6 +23,7 @@ INGREDIENT_TYPES = (
     ('D', 'Milk Products & Egg'),
     ('H', 'Canned Food'),
     ('S', 'Spices'),
+    ('Ss', 'Sauces')
 )
 
 def dinner_dirctory_path(instance, filename):
