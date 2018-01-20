@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^media/imagedir/ingredientTypes/(?P<ing_type_id>[0-9]+)/.*$', views.image_view_ing_type, name='image_view_ing_type'),
     url(r'^dinner/(?P<pk>[0-9]+)/$', views.DinnerDetail.as_view(), name='dinner'),
     url(r'^dinners/$', views.DinnerList.as_view(), name='dinners'),
+    url(r'^weeks/$', views.WeekList.as_view(), name='weeks'),
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

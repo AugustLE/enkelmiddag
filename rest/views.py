@@ -17,8 +17,8 @@ from .serializers import UserSerializer
 from rest_framework import status
 from PIL import Image
 
-from .models import Dinner, IngredientType
-from .serializers import DinnerSerializer, IngredientSerializer
+from .models import Dinner, IngredientType, Week
+from .serializers import DinnerSerializer, IngredientSerializer, WeekSerializer
 
 class UserList(generics.ListAPIView):
     permission_classes = (permissions.IsAdminUser,)
@@ -148,4 +148,12 @@ class DinnerDetail(APIView):
 
     def post(self):
         pass
+
+class WeekList(APIView):
+
+    @csrf_exempt
+    def get(self, request, format=None):
+        weeks = Week.objects.all()
+        serializer = WeekSerializer(weeks, many=True)
+        return Response(serializer.data)
 

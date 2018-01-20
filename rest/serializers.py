@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from user.models import CustomUser
-from .models import Dinner, IngredientType, Ingredient
+from .models import Dinner, IngredientType, Ingredient, Week
 from enkelmiddag import settings
 
 class UserSerializer(serializers.ModelSerializer):
@@ -47,7 +47,24 @@ class DinnerSerializer(serializers.ModelSerializer):
         model = Dinner
         fields = ('pk', 'name', 'type', 'recipe', 'image', 'ingredients')
 
-    #def get_image_url(self, dinner):
-     #   request = self.context.get('request')
-      #  image_url = dinner.image.url
-       # return request.build_absolute_uri(image_url)
+class WeekSerializer(serializers.ModelSerializer):
+
+    #dinners = DinnerSerializer(many=True)
+    class Meta:
+
+        model = Week
+        fields = ('pk', 'name',
+                  'monday',
+                  'tuesday',
+                  'wednesday',
+                  'thursday',
+                  'friday',
+                  'saturday',
+                  'sunday',
+                  'monday_amount',
+                  'tuesday_amount',
+                  'wednesday_amount',
+                  'thursday_amount',
+                  'friday_amount',
+                  'saturday_amount',
+                  'sunday_amount')
