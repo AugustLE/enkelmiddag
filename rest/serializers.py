@@ -53,7 +53,7 @@ class WeekSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Week
-        fields = ('pk', 'name',
+        fields = ('pk', 'name', 'image',
                   'monday',
                   'tuesday',
                   'wednesday',
