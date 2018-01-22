@@ -89,11 +89,14 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.type.name
 
+def week_directory_path(instance, filename):
+    return 'imagedir/weeks/{0}/{1}'.format(instance.id, filename)
 
 class Week(models.Model):
 
     name = models.CharField(max_length=150)
     date_created = models.DateTimeField(verbose_name='date created', auto_now_add=True)
+    image = models.ImageField(upload_to=week_directory_path, null=True, blank=True)
     monday = models.ForeignKey(Dinner, null=True, blank=True, related_name='monday')
     monday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
     tuesday = models.ForeignKey(Dinner, null=True, blank=True, related_name='tuesday')
@@ -111,6 +114,14 @@ class Week(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            saved_image = self.image
+            self.image = None
+            super(Week, self).save(*args, **kwargs)
+            self.image = saved_image
+        super(Week, self).save(*args, **kwargs)
 
 
 
@@ -176,6 +187,7 @@ def ingredient_type_delete(sender, instance, **kwargs):
 
     instance.image.delete(False)
 
+
 @receiver(models.signals.pre_save, sender=IngredientType)
 def delete_ing_type_on_change(sender, instance, **kwargs):
     if not instance.pk:
@@ -183,6 +195,24 @@ def delete_ing_type_on_change(sender, instance, **kwargs):
     try:
         old_file = IngredientType.objects.get(pk=instance.pk).image
     except Dinner.DoesNotExist:
+        return False
+
+    old_file.delete(False)
+
+
+@receiver(pre_delete, sender=Week)
+def week_delete(sender, instance, **kwargs):
+
+    instance.image.delete(False)
+
+
+@receiver(models.signals.pre_save, sender=Week)
+def delete_week_image_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+    try:
+        old_file = Week.objects.get(pk=instance.pk).image
+    except Week.DoesNotExist:
         return False
 
     old_file.delete(False)

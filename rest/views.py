@@ -94,8 +94,19 @@ class ImageDinnerView(APIView):
         image = open(url, "rb").read()
         return HttpResponse(image, content_type='image/png')
 
+
+class ImageWeekView(APIView):
+
+    def get(self, request, week_id, format=None):
+        print(self.get_renderer_context())
+        week = get_object_or_404(Week, pk=week_id)
+        url = "media/" + week.image.name
+        image = open(url, "rb").read()
+        return HttpResponse(image, content_type='image/png')
+
+
 @api_view(['GET'])
-#@permission_classes((permissions.IsAdminUser, ))
+# @permission_classes((permissions.IsAdminUser, ))
 def image_view_ing_type(request, ing_type_id):
     print("image_view_ing_type")
     ing_type = get_object_or_404(IngredientType, pk=ing_type_id)

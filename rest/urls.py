@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
     url(r'^user/login/$', views.UserAuthToken.as_view(), name='login'),
     url(r'^media/imagedir/dinners/(?P<dinner_id>[0-9]+)/.*$', views.ImageDinnerView.as_view(), name='image_view'),
+    url(r'^media/imagedir/weeks/(?P<week_id>[0-9]+)/.*$', views.ImageWeekView.as_view(), name='image_week_view'),
     url(r'^media/imagedir/ingredientTypes/(?P<ing_type_id>[0-9]+)/.*$', views.image_view_ing_type, name='image_view_ing_type'),
     url(r'^dinner/(?P<pk>[0-9]+)/$', views.DinnerDetail.as_view(), name='dinner'),
     url(r'^dinners/$', views.DinnerList.as_view(), name='dinners'),
