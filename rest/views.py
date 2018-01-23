@@ -116,7 +116,7 @@ def image_view_ing_type(request, ing_type_id):
 
 
 class DinnerList(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    #permission_classes = (permissions.IsAdminUser,)
     @csrf_exempt
     def get(self, request, format=None):
 
@@ -139,7 +139,7 @@ class DinnerList(APIView):
 
 
 class DinnerDetail(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    #permission_classes = (permissions.IsAdminUser,)
     def get_dinner(self, pk):
 
         try:
