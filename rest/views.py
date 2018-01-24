@@ -168,3 +168,64 @@ class WeekList(APIView):
         serializer = WeekSerializer(weeks, many=True)
         return Response(serializer.data)
 
+class WeekDetail(APIView):
+
+    def get_week(self, pk):
+
+        try:
+            return Week.objects.get(pk=pk)
+        except Week.DoesNotExist:
+            return None
+
+    @csrf_exempt
+    def get(self, request, pk, format=None):
+
+        week = self.get_week(pk)
+        serializer = WeekSerializer(week, many=False, context={'request': request})
+        if not week:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(serializer.data)
+
+class WeekDinners(APIView):
+
+    def get_week(self, pk):
+
+        try:
+            return Week.objects.get(pk=pk)
+        except Week.DoesNotExist:
+            return None
+
+    @csrf_exempt
+    def get(self, request, pk, format=None):
+
+        week = self.get_week(pk)
+        week_dinners = {}
+        if week.monday:
+            monday = DinnerSerializer(Dinner.objects.get(pk=week.monday.pk), many=False)
+            week_dinners['monday'] = monday.data
+        if week.tuesday:
+            tuesday = DinnerSerializer(Dinner.objects.get(pk=week.tuesday.pk), many=False)
+            week_dinners['tuesday'] = tuesday.data
+        if week.wednesday:
+            wednesday = DinnerSerializer(Dinner.objects.get(pk=week.wednesday.pk), many=False)
+            week_dinners['wednesday'] = wednesday.data
+        if week.thursday:
+            thursday = DinnerSerializer(Dinner.objects.get(pk=week.thursday.pk), many=False)
+            week_dinners['thursday'] = thursday.data
+        if week.friday:
+            friday = DinnerSerializer(Dinner.objects.get(pk=week.friday.pk), many=False)
+            week_dinners['friday'] = friday.data
+        if week.saturday:
+            saturday = DinnerSerializer(Dinner.objects.get(pk=week.saturday.pk), many=False)
+            week_dinners['saturday'] = saturday.data
+        if week.sunday:
+            sunday = DinnerSerializer(Dinner.objects.get(pk=week.sunday.pk), many=False)
+            week_dinners['sunday'] = sunday.data
+
+        if not week:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(week_dinners)
+
+

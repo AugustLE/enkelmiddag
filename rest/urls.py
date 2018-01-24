@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^dinner/(?P<pk>[0-9]+)/$', views.DinnerDetail.as_view(), name='dinner'),
     url(r'^dinners/$', views.DinnerList.as_view(), name='dinners'),
     url(r'^weeks/$', views.WeekList.as_view(), name='weeks'),
+    url(r'^week/(?P<pk>[0-9]+)/$', views.WeekDetail.as_view(), name='week'),
+    url(r'^weekDinners/(?P<pk>[0-9]+)/$', views.WeekDinners.as_view(), name='weekDinners'),
 
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
