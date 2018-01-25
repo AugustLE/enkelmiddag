@@ -200,7 +200,8 @@ class WeekDinners(APIView):
     def get(self, request, pk, format=None):
 
         week = self.get_week(pk)
-        week_dinners = {}
+        week_dinners = { 'name': week.name }
+
         if week.monday:
             monday = DinnerSerializer(Dinner.objects.get(pk=week.monday.pk), many=False)
             week_dinners['monday'] = monday.data
