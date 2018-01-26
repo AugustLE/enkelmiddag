@@ -200,29 +200,36 @@ class WeekDinners(APIView):
     def get(self, request, pk, format=None):
 
         week = self.get_week(pk)
-        week_dinners = { 'name': week.name }
+        week_dinners = {'name': week.name, 'dinners': []}
 
         if week.monday:
             monday = DinnerSerializer(Dinner.objects.get(pk=week.monday.pk), many=False)
-            week_dinners['monday'] = monday.data
+            monday_obj = {'monday': monday.data}
+            week_dinners['dinners'].append(monday_obj)
         if week.tuesday:
             tuesday = DinnerSerializer(Dinner.objects.get(pk=week.tuesday.pk), many=False)
-            week_dinners['tuesday'] = tuesday.data
+            tuesday_obj = {'tuesday': tuesday.data}
+            week_dinners['dinners'].append(tuesday_obj)
         if week.wednesday:
             wednesday = DinnerSerializer(Dinner.objects.get(pk=week.wednesday.pk), many=False)
-            week_dinners['wednesday'] = wednesday.data
+            wednesday_obj = {'wednesday': wednesday.data}
+            week_dinners['dinners'].append(wednesday_obj)
         if week.thursday:
             thursday = DinnerSerializer(Dinner.objects.get(pk=week.thursday.pk), many=False)
-            week_dinners['thursday'] = thursday.data
+            thursday_obj = {'thursday': thursday.data}
+            week_dinners['dinners'].append(thursday_obj)
         if week.friday:
             friday = DinnerSerializer(Dinner.objects.get(pk=week.friday.pk), many=False)
-            week_dinners['friday'] = friday.data
+            friday_obj = {'friday': friday.data}
+            week_dinners['dinners'].append(friday_obj)
         if week.saturday:
             saturday = DinnerSerializer(Dinner.objects.get(pk=week.saturday.pk), many=False)
-            week_dinners['saturday'] = saturday.data
+            saturday_obj = {'saturday': saturday.data}
+            week_dinners['dinners'].append(saturday_obj)
         if week.sunday:
             sunday = DinnerSerializer(Dinner.objects.get(pk=week.sunday.pk), many=False)
-            week_dinners['sunday'] = sunday.data
+            sunday_obj = {'sunday': sunday.data}
+            week_dinners['dinners'].append(sunday_obj)
 
         if not week:
             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
