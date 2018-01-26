@@ -206,24 +206,31 @@ class WeekDinners(APIView):
             monday = DinnerSerializer(Dinner.objects.get(pk=week.monday.pk), many=False)
             monday_obj = {'monday': monday.data}
             week_dinners['dinners']['monday'] = monday.data
+            week_dinners['dinners']['monday_amount'] = week.monday_amount
         if week.tuesday:
             tuesday = DinnerSerializer(Dinner.objects.get(pk=week.tuesday.pk), many=False)
             week_dinners['dinners']['tuesday'] = tuesday.data
+            week_dinners['dinners']['tuesday_amount'] = week.tuesday_amount
         if week.wednesday:
             wednesday = DinnerSerializer(Dinner.objects.get(pk=week.wednesday.pk), many=False)
             week_dinners['dinners']['wednesday'] = wednesday.data
+            week_dinners['dinners']['wednesday_amount'] = week.wednesday_amount
         if week.thursday:
             thursday = DinnerSerializer(Dinner.objects.get(pk=week.thursday.pk), many=False)
             week_dinners['dinners']['thursday'] = thursday.data
+            week_dinners['dinners']['thursday_amount'] = week.thursday_amount
         if week.friday:
             friday = DinnerSerializer(Dinner.objects.get(pk=week.friday.pk), many=False)
             week_dinners['dinners']['friday'] = friday.data
+            week_dinners['dinners']['friday_amount'] = week.friday_amount
         if week.saturday:
             saturday = DinnerSerializer(Dinner.objects.get(pk=week.saturday.pk), many=False)
             week_dinners['dinners']['saturday'] = saturday.data
+            week_dinners['dinners']['saturday_amount'] = week.saturday_amount
         if week.sunday:
             sunday = DinnerSerializer(Dinner.objects.get(pk=week.sunday.pk), many=False)
             week_dinners['dinners']['sunday'] = sunday.data
+            week_dinners['dinners']['sunday_amount'] = week.sunday_amount
 
         if not week:
             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
