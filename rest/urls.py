@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^weeks/$', views.WeekList.as_view(), name='weeks'),
     url(r'^week/(?P<pk>[0-9]+)/$', views.WeekDetail.as_view(), name='week'),
     url(r'^weekDinners/(?P<pk>[0-9]+)/$', views.WeekDinners.as_view(), name='weekDinners'),
+    url(r'^ingredientTypes/$', views.IngredientTypeList.as_view(), name='ingredientTypes'),
 
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

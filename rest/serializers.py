@@ -16,13 +16,14 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     dinner_id = serializers.PrimaryKeyRelatedField(queryset=Dinner.objects.all(), source='dinner.pk')
     type = serializers.PrimaryKeyRelatedField(queryset=IngredientType.objects.all(), source='type.name')
+    category = serializers.PrimaryKeyRelatedField(queryset=IngredientType.objects.all(), source='type.category')
     type_id = serializers.PrimaryKeyRelatedField(queryset=IngredientType.objects.all(), source='type.pk')
     #image_ing = serializers.PrimaryKeyRelatedField(queryset=IngredientType.objects.all(), source='type.image')
     image_url = serializers.SerializerMethodField()
     class Meta:
 
         model = Ingredient
-        fields = ('dinner_id', 'type', 'type_id', 'amount', 'annotation', 'image_url')
+        fields = ('dinner_id', 'type', 'category', 'type_id', 'amount', 'annotation', 'image_url')
 
     def get_image_url(self, obj):
         #return self.context['request'].build_absolute_uri(obj.type.image)
@@ -35,7 +36,7 @@ class IngredientTypeSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = IngredientType
-        fields = ('name', 'image', 'ingredients')
+        fields = ('name', 'image', 'category', 'ingredients')
 
 class DinnerSerializer(serializers.ModelSerializer):
 
@@ -53,7 +54,9 @@ class WeekSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Week
-        fields = ('pk', 'name', 'image',
+        fields = ('pk',
+                  'name',
+                  'image',
                   'monday',
                   'tuesday',
                   'wednesday',
@@ -67,4 +70,5 @@ class WeekSerializer(serializers.ModelSerializer):
                   'thursday_amount',
                   'friday_amount',
                   'saturday_amount',
-                  'sunday_amount')
+                  'sunday_amount'
+                  )

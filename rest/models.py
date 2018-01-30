@@ -17,16 +17,15 @@ FOOD_TYPES = (
     )
 
 INGREDIENT_TYPES = (
-    ('O', 'Other'),
-    ('F', 'Fruit and Vegetables'),
-    ('M', 'Meat and Fish'),
-    ('D', 'Milk Products & Egg'),
-    ('H', 'Canned Food'),
-    ('S', 'Spices'),
-    ('Ss', 'Sauces'),
-    ('B', 'Baking'),
-    ('Dr', 'Dry Food'),
-
+    ('Annet', 'Other'),
+    ('Frukt og grønt', 'Fruit and Vegetables'),
+    ('Kjøtt og fisk', 'Meat and Fish'),
+    ('Meieriprodukter og egg', 'Milk Products & Egg'),
+    ('Hermentikk', 'Canned Food'),
+    ('Krydder', 'Spices'),
+    ('Sauser', 'Sauces'),
+    ('Bakevarer', 'Baking'),
+    ('Tør mat', 'Dry Food')
 )
 
 def dinner_dirctory_path(instance, filename):
@@ -60,7 +59,11 @@ def ingredient_type_dirctory_path(instance, filename):
 class IngredientType(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
-    category = models.CharField(max_length=100, choices=INGREDIENT_TYPES, default=INGREDIENT_TYPES[0])
+    category = models.CharField(
+        max_length=100,
+        choices=INGREDIENT_TYPES,
+        default=INGREDIENT_TYPES[0]
+    )
     plural_name = models.CharField(max_length=100, null=True, blank=True)
     singular_name = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to=ingredient_type_dirctory_path, null=True, blank=True)
