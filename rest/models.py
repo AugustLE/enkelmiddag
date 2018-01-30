@@ -21,7 +21,7 @@ INGREDIENT_TYPES = (
     ('Frukt og grønt', 'Fruit and Vegetables'),
     ('Kjøtt og fisk', 'Meat and Fish'),
     ('Meieriprodukter og egg', 'Milk Products & Egg'),
-    ('Hermentikk', 'Canned Food'),
+    ('Hermentikk og glassmat', 'Canned Food'),
     ('Krydder', 'Spices'),
     ('Sauser', 'Sauces'),
     ('Bakevarer', 'Baking'),
