@@ -25,7 +25,7 @@ INGREDIENT_TYPES = (
     ('Krydder', 'Spices'),
     ('Sauser', 'Sauces'),
     ('Bakevarer', 'Baking'),
-    ('Tør mat', 'Dry Food')
+    ('Tørr mat', 'Dry Food')
 )
 
 def dinner_dirctory_path(instance, filename):
@@ -218,5 +218,6 @@ def delete_week_image_on_change(sender, instance, **kwargs):
     except Week.DoesNotExist:
         return False
 
-    old_file.delete(False)
+    if (instance.image and instance.image != old_file) or not instance.image:
+        old_file.delete(False)
 
