@@ -23,7 +23,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Ingredient
-        fields = ('dinner_id', 'type', 'category', 'type_id', 'amount', 'annotation', 'image_url')
+        fields = ('pk', 'dinner_id', 'type', 'category', 'type_id', 'amount', 'annotation', 'image_url')
 
     def get_image_url(self, obj):
         #return self.context['request'].build_absolute_uri(obj.type.image)
