@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^media/imagedir/ingredientTypes/(?P<ing_type_id>[0-9]+)/.*$', views.image_view_ing_type, name='image_view_ing_type'),
     url(r'^dinner/(?P<pk>[0-9]+)/$', views.DinnerDetail.as_view(), name='dinner'),
     url(r'^dinners/$', views.DinnerList.as_view(), name='dinners'),
+    url(r'^dinners/(?P<dinner_type>\w{0,50})/$', views.DinnersByCategory.as_view(), name='dinnerByCategory'),
     url(r'^weeks/$', views.WeekList.as_view(), name='weeks'),
     url(r'^week/(?P<pk>[0-9]+)/$', views.WeekDetail.as_view(), name='week'),
     url(r'^weekDinners/(?P<pk>[0-9]+)/$', views.WeekDinners.as_view(), name='weekDinners'),

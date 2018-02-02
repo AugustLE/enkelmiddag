@@ -137,6 +137,15 @@ class DinnerList(APIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+class DinnersByCategory(APIView):
+
+    @csrf_exempt
+    def get(self, request, dinner_type, format=None):
+        dinners = Dinner.objects.filter(type=dinner_type)
+        print('type type')
+        print(dinner_type)
+        serializer = DinnerSerializer(dinners, many=True)
+        return Response(serializer.data)
 
 class DinnerDetail(APIView):
     #permission_classes = (permissions.IsAdminUser,)

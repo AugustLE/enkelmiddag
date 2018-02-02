@@ -10,10 +10,10 @@ from PIL import Image
 # Create your models here.
 
 FOOD_TYPES = (
-        ('F', 'Fish'),
-        ('M', 'Meat'),
-        ('C', 'Chicken'),
-        ('V', 'Vegetarian'),
+        ('fish', 'Fish'),
+        ('meat', 'Meat'),
+        ('chicken', 'Chicken'),
+        ('vegetarian', 'Vegetarian'),
     )
 
 INGREDIENT_TYPES = (
