@@ -114,6 +114,7 @@ class Week(models.Model):
     saturday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
     sunday = models.ForeignKey(Dinner, null=True, blank=True, related_name='sunday')
     sunday_amount = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    visible = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
