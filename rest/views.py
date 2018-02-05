@@ -120,7 +120,7 @@ class DinnerList(APIView):
     @csrf_exempt
     def get(self, request, format=None):
 
-        dinners = Dinner.objects.all()
+        dinners = Dinner.objects.filter(visible=True)
         serializer = DinnerSerializer(dinners, many=True)
         return Response(serializer.data)
 
@@ -141,7 +141,7 @@ class DinnersByCategory(APIView):
 
     @csrf_exempt
     def get(self, request, dinner_type, format=None):
-        dinners = Dinner.objects.filter(type=dinner_type)
+        dinners = Dinner.objects.filter(type=dinner_type, visible=True)
         print('type type')
         print(dinner_type)
         serializer = DinnerSerializer(dinners, many=True)
@@ -152,7 +152,7 @@ class DinnerDetail(APIView):
     def get_dinner(self, pk):
 
         try:
-            return Dinner.objects.get(pk=pk)
+            return Dinner.objects.get(pk=pk, visible=True)
         except Dinner.DoesNotExist:
             return None
 
@@ -173,7 +173,7 @@ class WeekList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
-        weeks = Week.objects.all()
+        weeks = Week.objects.filter(visible=True)
         serializer = WeekSerializer(weeks, many=True)
         return Response(serializer.data)
 
@@ -182,7 +182,7 @@ class WeekDetail(APIView):
     def get_week(self, pk):
 
         try:
-            return Week.objects.get(pk=pk)
+            return Week.objects.get(pk=pk, visible=True)
         except Week.DoesNotExist:
             return None
 
@@ -201,7 +201,7 @@ class WeekDinners(APIView):
     def get_week(self, pk):
 
         try:
-            return Week.objects.get(pk=pk)
+            return Week.objects.get(pk=pk, visible=True)
         except Week.DoesNotExist:
             return None
 
