@@ -128,39 +128,6 @@ class Week(models.Model):
         super(Week, self).save(*args, **kwargs)
 
 
-
-class Fylke(models.Model):
-
-    name = models.CharField(max_length=100)
-    latitude = models.DecimalField(max_digits=20, decimal_places=6)
-    longitude = models.DecimalField(max_digits=20, decimal_places=6)
-
-    def __str__(self):
-        return self.name
-
-class Kommune(models.Model):
-
-    name = models.CharField(max_length=100)
-    latitude = models.DecimalField(max_digits=20, decimal_places=6)
-    longitude = models.DecimalField(max_digits=20, decimal_places=6)
-    fylke = models.ForeignKey(Fylke, related_name='kommuner')
-
-    def __str__(self):
-        return self.name
-
-
-class StorePosition(models.Model):
-
-    name = models.CharField(max_length=100)
-    opening_hours = models.CharField(max_length=300)
-    opening_hours_w = models.CharField(max_length=200)
-    latitude = models.DecimalField(max_digits=20, decimal_places=6)
-    longitude = models.DecimalField(max_digits=20, decimal_places=6)
-    kommune = models.ForeignKey(Kommune, related_name='storePositions')
-
-    def __str__(self):
-        return self.name
-
 @receiver(pre_delete, sender=Dinner)
 def dinner_delete(sender, instance, **kwargs):
     # Pass false so FileField doesn't save the model.

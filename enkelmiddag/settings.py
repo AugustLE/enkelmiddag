@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest',
     'user',
     'frontpage',
+    'restMap'
 ]
 
 MIDDLEWARE = [
