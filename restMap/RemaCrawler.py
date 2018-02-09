@@ -4,7 +4,6 @@ import json
 import ast
 import demjson
 
-
 def crawlRema():
 
     page = requests.get("https://www.rema.no/butikker/")
@@ -37,8 +36,8 @@ def crawlRema():
             break
         county_progress += 1
         county_name = county["data-county"]
-        print(county_name)
-        print("Working on " + county_name + ": " + str(county_progress) + "/" + str(len(counties_raw)))
+        county_string = ("Working on " + county_name + ": " + str(county_progress) + "/" + str(len(counties_raw))).encode('utf-8').strip()
+        print(county_string)
         google_api_county_address = google_api_address + ", " + county_name + ", Norway&key=" + google_api_key
         county_loc = get_google_location(google_api_county_address)
         county_lat = county_loc[0]
@@ -51,7 +50,7 @@ def crawlRema():
                 break
             city_progress += 1
             city_name = city["data-city"]
-            print(city_name + ", " + str(city_progress) + "/" + str(len(cities)))
+            print((city_name + ", " + str(city_progress) + "/" + str(len(cities))).encode('utf-8').strip())
             google_api_request_address = google_api_address + ", " + city_name + ", " + county_name + ", Norway&key=" + google_api_key
             loc_object = get_google_location(google_api_request_address)
             city_lat = loc_object[0]

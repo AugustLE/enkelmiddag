@@ -39,8 +39,7 @@ def crawlJoker():
 
         county_progress += 1
         county_name = county.find("a", recursive=False).get_text()
-        print(county_name)
-        print("Working on " + county_name + ": " + str(county_progress) + "/" + str(len(counties_list)))
+        print(("Working on " + county_name + ": " + str(county_progress) + "/" + str(len(counties_list))).encode('utf-8').strip())
 
         google_api_county_address = google_api_address + ", " + county_name + ", Norway&key=" + google_api_key
         county_loc = get_google_location(google_api_county_address)
@@ -91,7 +90,7 @@ def crawlJoker():
                 name = store_soup.find("h1", itemprop="name").get_text()
                 name = name.strip()
 
-                print(name + ", " + str(city_progress) + "/" + str(len(stores)))
+                print((name + ", " + str(city_progress) + "/" + str(len(stores))).encode('utf-8').strip())
 
                 storeObject = {
                     "lat": latitude,

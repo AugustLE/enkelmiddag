@@ -42,7 +42,7 @@ def crawlKiwi():
 
         county_progress += 1
         county_name = county.find("a", recursive=False).get_text()
-        print("Working on " + county_name + ": " + str(county_progress) + "/" + str(len(counties)))
+        print(("Working on " + county_name + ": " + str(county_progress) + "/" + str(len(counties))).encode('utf-8').strip())
         google_api_county_address = google_api_address + ", " + county_name + ", Norway&key=" + google_api_key
         county_loc = get_google_location(google_api_county_address)
         county_lat = county_loc[0]
@@ -57,7 +57,7 @@ def crawlKiwi():
 
             city_progress += 1
             city_name = city.find("a", recursive=False).get_text()
-            print(city_name + ", " + str(city_progress) + "/" + str(len(cities)))
+            print((city_name + ", " + str(city_progress) + "/" + str(len(cities))).encode('utf-8').strip())
             google_api_request_address = google_api_address + ", " + city_name + ", " + county_name + ", Norway&key=" + google_api_key
             loc_object = get_google_location(google_api_request_address)
             city_lat = loc_object[0]
