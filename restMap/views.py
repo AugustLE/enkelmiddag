@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from background_task import background
 
 from .RemaCrawler import crawlRema
 from .SparCrawler import crawlSpar
@@ -117,28 +118,45 @@ def updateWithCounties(data, store_brand):
             store_object.save()
 
 
-def updateRema(request):
+@background
+def backgroundRema():
     data = crawlRema()
     updateWithCities(data, 'rema')
-    return HttpResponse('<h2>Rema updated</h2>')
+
+@background
+def backgroundKiwi():
+    data = crawlKiwi()
+    updateWithCities(data, 'kiwi')
+
+@background
+def backgroundJoker():
+    data = crawlJoker()
+    updateWithCounties(data, 'joker')
+
+@background
+def backgroundSpar():
+    data = crawlSpar()
+    updateWithCounties(data, 'spar')
+
+
+def updateRema(request):
+
+    backgroundRema()
+    return HttpResponse('<h2>Rema is being updated</h2>')
 
 
 def updateKiwi(request):
-
-    data = crawlKiwi()
-    updateWithCities(data, 'kiwi')
+    backgroundKiwi()
     return HttpResponse('<h2>Kiwi stores updated</h2>')
 
 
 def updateJoker(request):
-    data = crawlJoker()
-    updateWithCounties(data, 'joker')
+    backgroundJoker()
     return HttpResponse('<h2>Joker stores updated</h2>')
 
 
 def updateSpar(request):
-    data = crawlSpar()
-    updateWithCounties(data, 'spar')
+    backgroundSpar()
     return HttpResponse('<h2>Spar stores updated</h2>')
 
 

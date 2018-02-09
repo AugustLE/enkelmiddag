@@ -42,10 +42,10 @@ def crawlJoker():
         print(county_name)
         print("Working on " + county_name + ": " + str(county_progress) + "/" + str(len(counties_list)))
 
-        #google_api_county_address = google_api_address + ", " + county_name + ", Norway&key=" + google_api_key
-        #county_loc = get_google_location(google_api_county_address)
-        county_lat = 1 #county_loc[0]
-        county_lng = 1 #county_loc[1]
+        google_api_county_address = google_api_address + ", " + county_name + ", Norway&key=" + google_api_key
+        county_loc = get_google_location(google_api_county_address)
+        county_lat = county_loc[0]
+        county_lng = county_loc[1]
 
         countyObject = {"name": county_name, "lat": county_lat, "lng": county_lng, "stores": []}
         stores = list(county.find("ul", recursive=False).find_all("li", recursive=False))

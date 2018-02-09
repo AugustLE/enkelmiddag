@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest',
     'user',
     'frontpage',
-    'restMap'
+    'restMap',
+    'background_task'
 ]
 
 MIDDLEWARE = [
