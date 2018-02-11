@@ -184,7 +184,7 @@ def packCities(serializerType):
 
     for county in counties:
         city_data = serializerType(City.objects.filter(county=county), many=True)
-        county_object = {"pk": county.pk, county.name: city_data.data}
+        county_object = {"name": county.name, "pk": county.pk, county.name: city_data.data}
         response.append(county_object)
 
     return response
