@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import County, City, StorePosition
 
+
 class StoreSerializer(serializers.ModelSerializer):
 
     city_id = serializers.PrimaryKeyRelatedField(queryset=City.objects.all(), source='city.pk')
@@ -18,6 +19,7 @@ class StoreSerializer(serializers.ModelSerializer):
             'email',
             'phone',
             'address')
+
 
 class CitySerializer(serializers.ModelSerializer):
 

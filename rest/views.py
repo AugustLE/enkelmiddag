@@ -211,6 +211,9 @@ class WeekDinners(APIView):
         week = self.get_week(pk)
         week_dinners = {'name': week.name, 'dinners': {}}
 
+        if not week:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
         if week.monday:
             monday = DinnerSerializer(Dinner.objects.get(pk=week.monday.pk), many=False)
             monday_obj = {'monday': monday.data}
@@ -240,9 +243,6 @@ class WeekDinners(APIView):
             sunday = DinnerSerializer(Dinner.objects.get(pk=week.sunday.pk), many=False)
             week_dinners['dinners']['sunday'] = sunday.data
             week_dinners['dinners']['sunday_amount'] = week.sunday_amount
-
-        if not week:
-            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(week_dinners)
 

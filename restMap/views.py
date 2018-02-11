@@ -160,7 +160,7 @@ def updateSpar(request):
     return HttpResponse('<h2>Spar stores updated</h2>')
 
 
-class GetStores(APIView):
+class StoreList(APIView):
     #permission_classes = (permissions.IsAdminUser,)
     @csrf_exempt
     def get(self, request, format=None):
@@ -168,3 +168,29 @@ class GetStores(APIView):
         stores = StorePosition.objects.all()
         serializer = StoreSerializer(stores, many=True)
         return Response(serializer.data)
+
+class CountyList(APIView):
+
+    @csrf_exempt
+    def get(self, request, format=None):
+
+        counties = County.objects.all()
+        serializer = CountySerializer(counties, many=True)
+        return Response(serializer.data)
+
+class CountyCityList(APIView):
+
+    @csrf_exempt
+    def get(self, request, format=None):
+
+        response = {}
+        counties = County.objects.all()
+
+        for county in counties:
+            print(county.name)
+            city_data = CitySerializer(City.objects.filter(county=county), many=True)
+            response[county.name] = []
+            response[county.name].extend(city_data.data)
+        #city_data = CitySerializer(City.objects.all(), many=True)
+        return Response(response)
+

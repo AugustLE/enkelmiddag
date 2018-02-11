@@ -33,6 +33,7 @@ AUTH_USER_MODEL = 'user.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'frontpage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +44,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest',
     'user',
-    'frontpage',
     'restMap',
     'background_task'
 ]
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'enkelmiddag.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
