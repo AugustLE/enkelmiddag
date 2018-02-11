@@ -13,7 +13,7 @@ from .JokerCrawler import crawlJoker
 from .KiwiCrawler import crawlKiwi
 
 from .models import County, City, StorePosition
-from .serializers import StoreSerializer, CitySerializer, CountySerializer
+from .serializers import StoreSerializer, CitySerializer, CountySerializer, SimpleStoreSerializer, PureCitySerializer
 
 
 def updateWithCities(data, store_brand):
@@ -164,9 +164,8 @@ class StoreList(APIView):
     #permission_classes = (permissions.IsAdminUser,)
     @csrf_exempt
     def get(self, request, format=None):
-
         stores = StorePosition.objects.all()
-        serializer = StoreSerializer(stores, many=True)
+        serializer = SimpleStoreSerializer(stores, many=True)
         return Response(serializer.data)
 
 class CountyList(APIView):
@@ -178,19 +177,33 @@ class CountyList(APIView):
         serializer = CountySerializer(counties, many=True)
         return Response(serializer.data)
 
+
+def packCities(serializerType):
+    response = {}
+    counties = County.objects.all()
+
+    for county in counties:
+        print(county.name)
+        city_data = serializerType(City.objects.filter(county=county), many=True)
+        response[county.name] = []
+        response[county.name].extend(city_data.data)
+    # city_data = CitySerializer(City.objects.all(), many=True)
+    return response
+
 class CountyCityList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
-
-        response = {}
-        counties = County.objects.all()
-
-        for county in counties:
-            print(county.name)
-            city_data = CitySerializer(City.objects.filter(county=county), many=True)
-            response[county.name] = []
-            response[county.name].extend(city_data.data)
-        #city_data = CitySerializer(City.objects.all(), many=True)
+        response = packCities(CitySerializer)
         return Response(response)
+
+class PureCountyCityList(APIView):
+
+    @csrf_exempt
+    def get(self, request, format=None):
+        response = packCities(PureCitySerializer)
+        return Response(response)
+
+
+
 
