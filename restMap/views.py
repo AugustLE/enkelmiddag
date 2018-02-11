@@ -180,7 +180,7 @@ class CountyList(APIView):
 
 def packCities(serializerType):
     response = {}
-    counties = County.objects.all().order_by('name')
+    counties = County.objects.order_by('name')
 
     for county in counties:
         print(county.name)
