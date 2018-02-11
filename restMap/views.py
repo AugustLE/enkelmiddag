@@ -173,14 +173,14 @@ class CountyList(APIView):
     @csrf_exempt
     def get(self, request, format=None):
 
-        counties = County.objects.all()
+        counties = County.objects.all().order_by('name')
         serializer = CountySerializer(counties, many=True)
         return Response(serializer.data)
 
 
 def packCities(serializerType):
     response = {}
-    counties = County.objects.all()
+    counties = County.objects.all().order_by('name')
 
     for county in counties:
         print(county.name)
