@@ -179,15 +179,16 @@ class CountyList(APIView):
 
 
 def packCities(serializerType):
-    response = {}
+    response = []
     counties = County.objects.order_by('name')
 
     for county in counties:
-        print(county.name)
         city_data = serializerType(City.objects.filter(county=county), many=True)
-        response[county.name] = []
-        response[county.name].extend(city_data.data)
-    # city_data = CitySerializer(City.objects.all(), many=True)
+        county_object = {county.name: city_data.data}
+        #response[county.name] = []
+        #response[county.name].extend(city_data.data)
+        response.append(county_object)
+
     return response
 
 class CountyCityList(APIView):
