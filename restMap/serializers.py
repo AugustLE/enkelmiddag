@@ -9,6 +9,7 @@ class SimpleStoreSerializer(serializers.ModelSerializer):
         model = StorePosition
         fields = (
             'pk',
+            'name',
             'opening_hours',
             'opening_hours_w',
             'latitude',
@@ -28,6 +29,7 @@ class StoreSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'city_id',
+            'name',
             'opening_hours',
             'opening_hours_w',
             'latitude',
