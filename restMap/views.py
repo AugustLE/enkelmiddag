@@ -204,5 +204,12 @@ class PureCountyCityList(APIView):
         return Response(response)
 
 
+class CountyStoreList(APIView):
 
+    @csrf_exempt
+    def get(self, request, county_name, format=None):
+        county = County.objects.get(name=county_name)
+        stores = StorePosition.objects.filter(county=county)
+        serializer = SimpleStoreSerializer(stores, many=True)
+        return Response(serializer.data)
 

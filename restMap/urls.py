@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^counties/cities/$', views.PureCountyCityList.as_view(), name='get_all_c&c_pure'),
     url(r'^counties/get/all/$', views.CountyList.as_view(), name='get_all_counties'),
     url(r'^stores/all/$', views.StoreList.as_view(), name='get_all_stores'),
+    url(r'^stores/(?P<county_name>\w{0,50})/$', views.CountyStoreList.as_view(), name='get_county_stores'),
 
 ]
 
