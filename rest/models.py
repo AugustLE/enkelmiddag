@@ -25,7 +25,9 @@ INGREDIENT_TYPES = (
     ('Krydder', 'Spices'),
     ('Sauser', 'Sauces'),
     ('Bakevarer', 'Baking'),
-    ('Tørr mat', 'Dry Food')
+    ('Tørr mat', 'Dry Food'),
+    ('Olje og lignende', 'Oil & similar'),
+    ('Brød og lignende', 'Bread & similar'),
 )
 
 def dinner_dirctory_path(instance, filename):
