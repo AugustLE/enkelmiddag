@@ -141,7 +141,7 @@ class DinnersByCategory(APIView):
 
     @csrf_exempt
     def get(self, request, dinner_type, format=None):
-        dinners = Dinner.objects.filter(type=dinner_type, visible=True)
+        dinners = Dinner.objects.filter(type=dinner_type, visible=True).order_by('priority')
         print('type type')
         print(dinner_type)
         serializer = DinnerSerializer(dinners, many=True)
@@ -173,7 +173,7 @@ class WeekList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
-        weeks = Week.objects.filter(visible=True)
+        weeks = Week.objects.filter(visible=True).order_by('priority')
         serializer = WeekSerializer(weeks, many=True)
         return Response(serializer.data)
 
