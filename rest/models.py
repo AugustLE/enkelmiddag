@@ -14,6 +14,7 @@ FOOD_TYPES = (
         ('meat', 'Meat'),
         ('chicken', 'Chicken'),
         ('vegetarian', 'Vegetarian'),
+        ('chill', 'Extra kos')
     )
 
 INGREDIENT_TYPES = (
@@ -41,6 +42,7 @@ class Dinner(models.Model):
     owner = models.ForeignKey(CustomUser, related_name='dinners', on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to=dinner_dirctory_path, null=True, blank=True)
     visible = models.BooleanField(default=False)
+    priority = models.IntegerField(default=2)
 
     def __str__(self):
         return self.name
