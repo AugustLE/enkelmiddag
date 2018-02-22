@@ -80,9 +80,9 @@ def crawlSpar():
                 store_postal_code = contact_info_node.find(itemprop="postalCode").get_text()
                 store_postal_place = contact_info_node.find(itemprop="addressLocality").get_text()
 
-                address = store_street_address + ", " + \
-                          store_postal_code + ", " + \
-                          store_postal_place + ", " + county_name
+                address = store_street_address + ", "
+                address += store_postal_code + ", "
+                address += "\n" + store_postal_place + ", " + county_name
 
                 email_node = info_node.find("a", itemprop="email")
                 email = email_node["href"].replace("mailto:", "")

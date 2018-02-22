@@ -142,22 +142,22 @@ def backgroundSpar():
 def updateRema(request):
 
     backgroundRema()
-    return HttpResponse('<h2>Rema is being updated</h2>')
+    return HttpResponse('<h2>Rema is queued for update</h2>')
 
 
 def updateKiwi(request):
     backgroundKiwi()
-    return HttpResponse('<h2>Kiwi stores updated</h2>')
+    return HttpResponse('<h2>Kiwi is queued for update</h2>')
 
 
 def updateJoker(request):
     backgroundJoker()
-    return HttpResponse('<h2>Joker stores updated</h2>')
+    return HttpResponse('<h2>Joker is queued for update</h2>')
 
 
 def updateSpar(request):
     backgroundSpar()
-    return HttpResponse('<h2>Spar stores updated</h2>')
+    return HttpResponse('<h2>Spar is queued for update</h2>')
 
 
 class StoreList(APIView):

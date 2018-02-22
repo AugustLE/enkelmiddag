@@ -106,9 +106,9 @@ def crawlKiwi():
                 store_postal_code = address_node.find(itemprop="postalCode").get_text()
                 store_postal_place = address_node.find(itemprop="addressLocality").get_text()
 
-                address = store_street_address + ", " +  \
-                          store_postal_code + ", " +\
-                          store_postal_place + ", " + county_name
+                address = store_street_address + ", "
+                address += store_postal_code + ", "
+                address += "\n" + store_postal_place + ", " + county_name
 
                 phone = (store_contact_node.find("a", itemprop="telephone").get_text())
                 phone = phone.strip(' ')

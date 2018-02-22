@@ -87,9 +87,9 @@ def crawlRema():
                     name = info_object["name"]
                     phone = info_object["phone"]
                     email = info_object["email"]
-                    address = info_object["visitAddress"] + ", " +  \
-                              info_object["visitPostCode"] + ", " +\
-                              city_name + ", " + county_name
+                    address = info_object["visitAddress"] + ", "
+                    address += info_object["visitPostCode"] + ", "
+                    address += "\n" + city_name + ", " + county_name
 
                     has_post_inStore = info_object["hasPostInStore"]
                     ohObject = info_object["openingHours"]
