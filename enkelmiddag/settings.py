@@ -11,12 +11,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-
+import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-import datetime
-TOKEN_EXPIRE_TIME=datetime.timedelta(days=20)
+
+TOKEN_EXPIRE_TIME = datetime.timedelta(days=20)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -26,7 +26,9 @@ SECRET_KEY = '#vaxs7wbp7-tg(+3qbb8=_+**$f(b!8b1nz=c%+zh8b9@5%l(w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['46.101.61.74', '127.0.0.1', 'enkelmiddagapp.no']
+AUTH_STR = '123khdsvznsdfd484SDFsdn'
+
+ALLOWED_HOSTS = ['46.101.61.74', '127.0.0.1', 'enkelmiddagapp.no', '192.168.20.8']
 
 AUTH_USER_MODEL = 'user.CustomUser'
 

@@ -14,7 +14,7 @@ from .KiwiCrawler import crawlKiwi
 
 from .models import County, City, StorePosition
 from .serializers import StoreSerializer, CitySerializer, CountySerializer, SimpleStoreSerializer, PureCitySerializer
-
+from rest.views import authorize_fetch
 
 def updateWithCities(data, store_brand):
 
@@ -166,7 +166,8 @@ class StoreList(APIView):
     def get(self, request, format=None):
         stores = StorePosition.objects.all()
         serializer = SimpleStoreSerializer(stores, many=True)
-        return Response(serializer.data)
+        return authorize_fetch(request, Response(serializer.data))
+
 
 class CountyList(APIView):
 
@@ -175,7 +176,7 @@ class CountyList(APIView):
 
         counties = County.objects.all().order_by('name')
         serializer = CountySerializer(counties, many=True)
-        return Response(serializer.data)
+        return authorize_fetch(request, Response(serializer.data))
 
 
 def packCities(serializerType):
@@ -194,14 +195,14 @@ class CountyCityList(APIView):
     @csrf_exempt
     def get(self, request, format=None):
         response = packCities(CitySerializer)
-        return Response(response)
+        return authorize_fetch(request, Response(response))
 
 class PureCountyCityList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
         response = packCities(PureCitySerializer)
-        return Response(response)
+        return authorize_fetch(request, Response(response))
 
 
 class CountyStoreList(APIView):
@@ -211,5 +212,5 @@ class CountyStoreList(APIView):
         county = County.objects.get(pk=pk)
         stores = StorePosition.objects.filter(county=county)
         serializer = SimpleStoreSerializer(stores, many=True)
-        return Response(serializer.data)
+        return authorize_fetch(request, Response(serializer.data))
 

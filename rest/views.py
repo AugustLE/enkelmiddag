@@ -10,15 +10,24 @@ from rest_framework import permissions
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
-from rest_framework.viewsets import ModelViewSet
 
 from user.models import CustomUser
 from .serializers import UserSerializer
 from rest_framework import status
-from PIL import Image
+from django.conf import settings
+
 
 from .models import Dinner, IngredientType, Week
 from .serializers import DinnerSerializer, IngredientSerializer, WeekSerializer, IngredientTypeSerializer
+
+
+def authorize_fetch(request, response):
+    try:
+        if request.META['HTTP_AUTHSTR'] == settings.AUTH_STR:
+            return response
+        return Response('Not authorized', status=status.HTTP_401_UNAUTHORIZED)
+    except:
+        return Response('Not authorized', status=status.HTTP_401_UNAUTHORIZED)
 
 class UserList(generics.ListAPIView):
     permission_classes = (permissions.IsAdminUser,)
@@ -122,7 +131,8 @@ class DinnerList(APIView):
 
         dinners = Dinner.objects.filter(visible=True)
         serializer = DinnerSerializer(dinners, many=True)
-        return Response(serializer.data)
+        return authorize_fetch(request, Response(serializer.data))
+
 
     @csrf_exempt
     def post(self, request, format=None):
@@ -142,10 +152,10 @@ class DinnersByCategory(APIView):
     @csrf_exempt
     def get(self, request, dinner_type, format=None):
         dinners = Dinner.objects.filter(type=dinner_type, visible=True).order_by('priority')
-        print('type type')
-        print(dinner_type)
         serializer = DinnerSerializer(dinners, many=True)
-        return Response(serializer.data)
+        return authorize_fetch(request, Response(serializer.data))
+
+
 
 class DinnerDetail(APIView):
     #permission_classes = (permissions.IsAdminUser,)
@@ -163,11 +173,7 @@ class DinnerDetail(APIView):
         serializer = DinnerSerializer(dinner, many=False, context={'request': request})
         if not dinner:
             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        return Response(serializer.data)
-
-    def post(self):
-        pass
+        return authorize_fetch(request, Response(serializer.data))
 
 class WeekList(APIView):
 
@@ -175,7 +181,7 @@ class WeekList(APIView):
     def get(self, request, format=None):
         weeks = Week.objects.filter(visible=True).order_by('priority')
         serializer = WeekSerializer(weeks, many=True)
-        return Response(serializer.data)
+        return authorize_fetch(request, Response(serializer.data))
 
 class WeekDetail(APIView):
 
@@ -194,7 +200,7 @@ class WeekDetail(APIView):
         if not week:
             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response(serializer.data)
+        return authorize_fetch(request, Response(serializer.data))
 
 class WeekDinners(APIView):
 
@@ -244,7 +250,7 @@ class WeekDinners(APIView):
             week_dinners['dinners']['sunday'] = sunday.data
             week_dinners['dinners']['sunday_amount'] = week.sunday_amount
 
-        return Response(week_dinners)
+        return authorize_fetch(request, Response(week_dinners))
 
 
 class IngredientTypeList(APIView):
